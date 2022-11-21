@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="employee-service" />
+        <module name="common-dtos" />
+        <module name="provident-fund-service" />
+        <module name="payslip-service" />
+        <module name="tax-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common-dtos" target="1.8" />
+      <module name="employee-service" target="1.8" />
+      <module name="payroll-management" target="1.8" />
+      <module name="payslip-service" target="1.8" />
+      <module name="provident-fund-service" target="1.8" />
+      <module name="tax-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-dtos" options="-parameters" />
+      <module name="employee-service" options="-parameters" />
+      <module name="payroll-management" options="-parameters" />
+      <module name="payslip-service" options="-parameters" />
+      <module name="provident-fund-service" options="-parameters" />
+      <module name="tax-service" options="-parameters" />
+    </option>
+  </component>
+</project>

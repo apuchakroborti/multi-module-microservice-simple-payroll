@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/common-dtos/common-dtos.iml" filepath="$PROJECT_DIR$/common-dtos/common-dtos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/employee-service/employee-service.iml" filepath="$PROJECT_DIR$/employee-service/employee-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/payroll-management.iml" filepath="$PROJECT_DIR$/payroll-management.iml" />
+      <module fileurl="file://$PROJECT_DIR$/payslip-service/payslip-service.iml" filepath="$PROJECT_DIR$/payslip-service/payslip-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/provident-fund-service/provident-fund-service.iml" filepath="$PROJECT_DIR$/provident-fund-service/provident-fund-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tax-service/tax-service.iml" filepath="$PROJECT_DIR$/tax-service/tax-service.iml" />
+    </modules>
+  </component>
+</project>
