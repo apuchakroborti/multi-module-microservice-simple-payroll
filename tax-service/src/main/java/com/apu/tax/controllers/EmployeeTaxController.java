@@ -29,10 +29,10 @@ public class EmployeeTaxController {
     private final TaxDepositService taxDepositService;
 
     @PostMapping
-    public ResponseEntity<APIResponse> insertTaxInfo(@Valid @RequestBody TaxDepositDto employeeTaxDepositModel) throws GenericException {
-        log.info("EmployeeTaxController::insertTaxInfo request body {}", Utils.jsonAsString(employeeTaxDepositModel));
+    public ResponseEntity<APIResponse> insertTaxInfo(@Valid @RequestBody TaxDepositDto taxDepositDto) throws GenericException {
+        log.info("EmployeeTaxController::insertTaxInfo request body {}", Utils.jsonAsString(taxDepositDto));
 
-        TaxDepositDto employeeResponseDTO = taxDepositService.insertIndividualTaxInfo(employeeTaxDepositModel);
+        TaxDepositDto employeeResponseDTO = taxDepositService.insertIndividualTaxInfo(taxDepositDto);
         log.debug("EmployeeTaxController::insertTaxInfo response {}", Utils.jsonAsString(employeeResponseDTO));
 
         //Builder Design pattern

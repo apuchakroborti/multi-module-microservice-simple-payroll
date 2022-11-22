@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class EmployeeTaxDepositDto extends CommonDto {
     private Long id;
     @NotNull(message = "Employee Id should not be null!")
-    private EmployeeDto employee;
+    private Long employeeId;
     private Double amount;
     private String chalanNo;
     private String comments;

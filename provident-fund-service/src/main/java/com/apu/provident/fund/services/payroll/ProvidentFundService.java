@@ -1,5 +1,6 @@
 package com.apu.provident.fund.services.payroll;
 
+import com.apu.provident.fund.dto.ProvidentFundDto;
 import com.apu.provident.fund.dto.request.ProvidentFundSearchCriteria;
 import com.apu.provident.fund.exceptions.GenericException;
 import com.apu.provident.fund.entity.payroll.ProvidentFund;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 
 public interface ProvidentFundService {
-    ProvidentFund insertPfData(Double employeeSalary, Long employeeId, LocalDate month) throws GenericException;
+    ProvidentFundDto savePfData(ProvidentFundDto providentFundDto) throws GenericException;
     Page<ProvidentFund> getPFInfoWithSearchCriteria(ProvidentFundSearchCriteria criteria, Pageable pageable) throws GenericException;
     Optional<ProvidentFund> getByEmployeeIdAndFromDateAndToDate(Long employeeId, LocalDate fromDate, LocalDate toDate);
 }

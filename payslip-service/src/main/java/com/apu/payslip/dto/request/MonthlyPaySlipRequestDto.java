@@ -15,7 +15,7 @@ public class MonthlyPaySlipRequestDto {
 
     private Long employeeId;
 
-    private Double grossSalary;
+//    private Double grossSalary;
 
     @NotNull(message = "From date should not be null!")
     private LocalDate fromDate;
