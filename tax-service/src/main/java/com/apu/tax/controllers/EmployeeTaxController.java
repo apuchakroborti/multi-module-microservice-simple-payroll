@@ -1,12 +1,13 @@
 package com.apu.tax.controllers;
 
-import com.apu.tax.dto.EmployeeTaxDepositDto;
-import com.example.payroll.dto.response.APIResponse;
-import com.example.payroll.dto.response.Pagination;
-import com.example.payroll.exceptions.GenericException;
-import com.example.payroll.entity.payroll.EmployeeTaxDeposit;
-import com.example.payroll.services.payroll.TaxDepositService;
-import com.example.payroll.utils.Utils;
+import com.apu.tax.dto.TaxDepositDto;
+import com.apu.tax.dto.request.TaxSearchCriteria;
+import com.apu.tax.dto.response.APIResponse;
+import com.apu.tax.dto.response.Pagination;
+import com.apu.tax.entity.payroll.EmployeeTaxDeposit;
+import com.apu.tax.exceptions.GenericException;
+import com.apu.tax.services.payroll.TaxDepositService;
+import com.apu.tax.utils.Utils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,15 +29,15 @@ public class EmployeeTaxController {
     private final TaxDepositService taxDepositService;
 
     @PostMapping
-    public ResponseEntity<APIResponse> insertTaxInfo(@Valid @RequestBody EmployeeTaxDepositDto employeeTaxDepositModel) throws GenericException {
+    public ResponseEntity<APIResponse> insertTaxInfo(@Valid @RequestBody TaxDepositDto employeeTaxDepositModel) throws GenericException {
         log.info("EmployeeTaxController::insertTaxInfo request body {}", Utils.jsonAsString(employeeTaxDepositModel));
 
-        EmployeeTaxDepositDto  employeeResponseDTO = taxDepositService.insertIndividualTaxInfo(employeeTaxDepositModel);
+        TaxDepositDto employeeResponseDTO = taxDepositService.insertIndividualTaxInfo(employeeTaxDepositModel);
         log.debug("EmployeeTaxController::insertTaxInfo response {}", Utils.jsonAsString(employeeResponseDTO));
 
         //Builder Design pattern
-        APIResponse<EmployeeTaxDepositDto> responseDTO = APIResponse
-                .<EmployeeTaxDepositDto>builder()
+        APIResponse<TaxDepositDto> responseDTO = APIResponse
+                .<TaxDepositDto>builder()
                 .status("SUCCESS")
                 .results(employeeResponseDTO)
                 .build();
@@ -50,10 +50,10 @@ public class EmployeeTaxController {
         log.info("EmployeeTaxController::getAllTaxInfoByEmployeeId requested employee id: {}", employeeId);
 
         Page<EmployeeTaxDeposit> taxDepositPage = taxDepositService.getAllTaxInfoByEmployeeId(employeeId, pageable);
-        List<EmployeeTaxDepositDto> employeeTaxDepositDtoList = Utils.toDtoList(taxDepositPage, EmployeeTaxDepositDto.class);
+        List<TaxDepositDto> employeeTaxDepositDtoList = Utils.toDtoList(taxDepositPage, TaxDepositDto.class);
 
-        APIResponse<List<EmployeeTaxDepositDto>> responseDTO = APIResponse
-                .<List<EmployeeTaxDepositDto>>builder()
+        APIResponse<List<TaxDepositDto>> responseDTO = APIResponse
+                .<List<TaxDepositDto>>builder()
                 .status("SUCCESS")
                 .results(employeeTaxDepositDtoList)
                 .pagination(new Pagination(taxDepositPage.getTotalElements(), taxDepositPage.getNumberOfElements(), taxDepositPage.getNumber(), taxDepositPage.getSize()))
@@ -67,10 +67,10 @@ public class EmployeeTaxController {
         log.info("EmployeeTaxController::getAllTaxInfo request criteria: {}", Utils.jsonAsString(criteria));
         Page<EmployeeTaxDeposit> taxDepositPage = taxDepositService.getTaxInfoWithInDateRangeAndEmployeeId(criteria, pageable);
 
-        List<EmployeeTaxDepositDto> employeeTaxDepositDtoList = Utils.toDtoList(taxDepositPage, EmployeeTaxDepositDto.class);
+        List<TaxDepositDto> employeeTaxDepositDtoList = Utils.toDtoList(taxDepositPage, TaxDepositDto.class);
 
-        APIResponse<List<EmployeeTaxDepositDto>> responseDTO = APIResponse
-                .<List<EmployeeTaxDepositDto>>builder()
+        APIResponse<List<TaxDepositDto>> responseDTO = APIResponse
+                .<List<TaxDepositDto>>builder()
                 .status("SUCCESS")
                 .results(employeeTaxDepositDtoList)
                 .pagination(new Pagination(taxDepositPage.getTotalElements(), taxDepositPage.getNumberOfElements(), taxDepositPage.getNumber(), taxDepositPage.getSize()))

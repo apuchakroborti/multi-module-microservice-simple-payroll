@@ -21,7 +21,7 @@ public class MonthlyPaySlipDto{
     private Double due;
 
 //    private ProvidentFundDto providentFund;
-    private List<EmployeeTaxDepositDto> employeeTaxDepositList;
+    private List<TaxDepositDto> employeeTaxDepositList;
 
     private Double arrears;
     private Double festivalBonus;

@@ -1,8 +1,10 @@
-package com.example.payroll.services.payroll.impls;
+package com.apu.tax.services.payroll.impls;
 
+import com.apu.tax.dto.TaxDepositDto;
 import com.apu.tax.dto.request.TaxSearchCriteria;
 import com.apu.tax.entity.payroll.EmployeeTaxDeposit;
 import com.apu.tax.exceptions.GenericException;
+import com.apu.tax.repository.payroll.TaxDepositRepository;
 import com.apu.tax.services.payroll.TaxDepositService;
 import com.apu.tax.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
@@ -20,22 +22,22 @@ import java.util.Optional;
 public class TaxDepositServiceImpl implements TaxDepositService {
 
     private final TaxDepositRepository taxDepositRepository;
-    private final EmployeeRepository employeeRepository;
+//    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    TaxDepositServiceImpl(TaxDepositRepository taxDepositRepository,
-                          EmployeeRepository employeeRepository){
+    TaxDepositServiceImpl(TaxDepositRepository taxDepositRepository/*,
+                          EmployeeRepository employeeRepository*/){
         this.taxDepositRepository = taxDepositRepository;
-        this.employeeRepository = employeeRepository;
+//        this.employeeRepository = employeeRepository;
     }
 
 
     //An employee can save his/her tax info only
     @Override
-    public EmployeeTaxDepositDto insertIndividualTaxInfo(EmployeeTaxDepositDto employeeTaxDepositDto) throws GenericException{
+    public TaxDepositDto insertIndividualTaxInfo(TaxDepositDto taxDepositDto) throws GenericException{
         try {
-            log.info("TaxDepositServiceImpl::insertIndividualTaxInfo service start: employee Id: {}",employeeTaxDepositDto.getEmployee().getId());
-            Optional<Employee> employee = employeeRepository.getLoggedInEmployee();
+            log.info("TaxDepositServiceImpl::insertIndividualTaxInfo service start: employee Id: {}",taxDepositDto.getEmployeeId());
+            /*Optional<Employee> employee = employeeRepository.getLoggedInEmployee();
 
             Optional<Employee> optionalEmployee = employeeRepository.findById(
                     employee.isPresent() ? employee.get().getId(): employeeTaxDepositDto.getEmployee().getId()
@@ -43,12 +45,12 @@ public class TaxDepositServiceImpl implements TaxDepositService {
             if (!optionalEmployee.isPresent()){
                 log.debug("TaxDepositServiceImpl::insertIndividualTaxInfo: employee not found by Id: {}",employeeTaxDepositDto.getEmployee().getId());
                 throw new GenericException(Defs.EMPLOYEE_NOT_FOUND);
-            }
+            }*/
 
             EmployeeTaxDeposit employeeTaxDeposit = new EmployeeTaxDeposit();
-            Utils.copyProperty(employeeTaxDepositDto, employeeTaxDeposit);
+            Utils.copyProperty(taxDepositDto, employeeTaxDeposit);
 
-            employeeTaxDeposit.setEmployee(optionalEmployee.get());
+            employeeTaxDeposit.setEmployeeId(taxDepositDto.getEmployeeId());
             employeeTaxDeposit.setCreatedBy(1L);
             employeeTaxDeposit.setCreateTime(LocalDateTime.now());
 
@@ -56,18 +58,18 @@ public class TaxDepositServiceImpl implements TaxDepositService {
 
             log.debug("TaxDepositServiceImpl::insertIndividualTaxInfo: employeeTaxDeposity info: {}", Utils.jsonAsString(employeeTaxDeposit));
 
-            Utils.copyProperty(employeeTaxDeposit, employeeTaxDepositDto);
-            log.info("TaxDepositServiceImpl::insertIndividualTaxInfo service end: employee Id: {}",employeeTaxDepositDto.getEmployee().getId());
+            Utils.copyProperty(employeeTaxDeposit, taxDepositDto);
+            log.info("TaxDepositServiceImpl::insertIndividualTaxInfo service end: employee Id: {}",taxDepositDto.getEmployeeId());
 
-            return employeeTaxDepositDto;
+            return taxDepositDto;
         }catch (Exception e){
-            log.error("Error occurred while inserting individual tax info, employeeId: {}", employeeTaxDepositDto.getEmployee().getId());
+            log.error("Error occurred while inserting individual tax info, employeeId: {}", taxDepositDto.getEmployeeId());
             throw new GenericException("Internal server error", e);
         }
     }
 
     //An employee can save his/her tax info only
-    @Override
+    /*@Override
     public EmployeeTaxDeposit insertPayslipTaxInfo(MonthlyPaySlip monthlyPaySlip, Employee employee,
                                                    Double taxToDepositForTheRequestMonth, TaxType taxType,
                                                    LocalDate fromDate, LocalDate toDate)throws GenericException{
@@ -109,7 +111,7 @@ public class TaxDepositServiceImpl implements TaxDepositService {
             log.error("TaxDepositServiceImpl::insertPayslipTaxInfo: Exception occurred while saving tax deposit info!: employee Id: {}", employee.getId());
             throw new GenericException("Exception occurred while saving tax deposit info!");
         }
-    }
+    }*/
 
     //An employee can see his/her tax info only
     @Override

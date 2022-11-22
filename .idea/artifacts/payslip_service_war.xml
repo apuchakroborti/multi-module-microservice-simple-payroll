@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="payslip-service:war">
+    <output-path>$PROJECT_DIR$/payslip-service/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>payslip-service</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="payslip-service-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="payslip-service:war exploded" />
+    </root>
+  </artifact>
+</component>

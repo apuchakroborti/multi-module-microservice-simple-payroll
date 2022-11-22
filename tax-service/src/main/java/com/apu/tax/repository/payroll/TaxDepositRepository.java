@@ -1,6 +1,7 @@
 package com.apu.tax.repository.payroll;
 
 import com.apu.tax.entity.payroll.EmployeeTaxDeposit;
+import com.apu.tax.utils.TaxType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

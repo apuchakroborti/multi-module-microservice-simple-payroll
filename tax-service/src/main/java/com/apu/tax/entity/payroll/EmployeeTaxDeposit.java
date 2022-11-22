@@ -1,6 +1,6 @@
 package com.apu.tax.entity.payroll;
 
-import com.example.payroll.utils.TaxType;
+import com.apu.tax.utils.TaxType;
 import lombok.*;
 
 import javax.persistence.*;

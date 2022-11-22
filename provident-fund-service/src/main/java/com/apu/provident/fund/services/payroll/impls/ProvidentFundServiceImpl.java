@@ -5,6 +5,7 @@ import com.apu.provident.fund.dto.request.ProvidentFundSearchCriteria;
 import com.apu.provident.fund.exceptions.GenericException;
 import com.apu.provident.fund.entity.payroll.ProvidentFund;
 import com.apu.provident.fund.repository.payroll.ProvidentFundRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,15 @@ import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
 @Service
+@Slf4j
 public class ProvidentFundServiceImpl implements ProvidentFundService {
-    Logger logger = LoggerFactory.getLogger(ProvidentFundServiceImpl.class);
+//    Logger log = LoggerFactory.getLogger(ProvidentFundServiceImpl.class);
 
     @Autowired
     ProvidentFundRepository employeeProvidentFundRepository;
 
     @Override
-    public ProvidentFund insertPfData(EmployeeSalary employeeSalary, LocalDate month) throws GenericException {
+    public ProvidentFund insertPfData(Double employeeGrossSalary, Long employeeId, LocalDate month) throws GenericException {
         ProvidentFund providentFund = new ProvidentFund();
 
         LocalDate start = month.with(firstDayOfMonth());
@@ -36,12 +38,12 @@ public class ProvidentFundServiceImpl implements ProvidentFundService {
         providentFund.setFromDate(start);
         providentFund.setToDate(end);
 
-        providentFund.setEmployeeContribution(employeeSalary.getBasicSalary()*7.5/100);
-        providentFund.setCompanyContribution(employeeSalary.getBasicSalary()*7.5/100);
+        providentFund.setEmployeeContribution(employeeGrossSalary*0.60*7.5/100);
+        providentFund.setCompanyContribution(employeeGrossSalary*0.60*7.5/100);
 
         providentFund.setComments("Monthly deposit to provident fund");
 
-        providentFund.setEmployee(employeeSalary.getEmployee());
+        providentFund.setEmployeeId(employeeId);
 
         providentFund.setCreatedBy(1L);
         providentFund.setCreateTime(LocalDateTime.now());

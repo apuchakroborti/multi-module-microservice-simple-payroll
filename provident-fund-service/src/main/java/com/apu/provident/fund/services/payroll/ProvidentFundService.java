@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 public interface ProvidentFundService {
-    ProvidentFund insertPfData(EmployeeSalary employeeSalary, LocalDate month) throws GenericException;
+    ProvidentFund insertPfData(Double employeeSalary, Long employeeId, LocalDate month) throws GenericException;
     Page<ProvidentFund> getPFInfoWithSearchCriteria(ProvidentFundSearchCriteria criteria, Pageable pageable) throws GenericException;
     Optional<ProvidentFund> getByEmployeeIdAndFromDateAndToDate(Long employeeId, LocalDate fromDate, LocalDate toDate);
 }

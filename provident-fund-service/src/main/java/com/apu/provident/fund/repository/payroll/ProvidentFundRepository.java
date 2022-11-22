@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ProvidentFundRepository extends CrudRepository<ProvidentFund, Long> {
     @Query(value="  select pf " +
             "   from ProvidentFund pf" +
-            "   where ( :employeeId is null or pf.employee.id = :employeeId )" +
+            "   where ( :employeeId is null or pf.employeeId = :employeeId )" +
             "   and ( :fromDate is null or pf.fromDate >= :fromDate )" +
             "   and ( :toDate is null or pf.toDate <= :toDate )")
     Page<ProvidentFund> getEmployeeMonthlyPFByDateRangeAndEmployeeId(
