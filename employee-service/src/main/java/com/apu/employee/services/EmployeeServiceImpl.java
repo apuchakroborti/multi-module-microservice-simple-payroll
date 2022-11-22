@@ -1,7 +1,9 @@
 package com.apu.employee.services;
 
+import com.apu.employee.dto.APIResponse;
 import com.apu.employee.dto.EmployeeDto;
 import com.apu.employee.dto.request.EmployeeSearchCriteria;
+import com.apu.employee.dto.request.MonthlyPaySlipJoiningRequestDto;
 import com.apu.employee.entity.payroll.Employee;
 import com.apu.employee.entity.payroll.EmployeeSalary;
 import com.apu.employee.exceptions.EmployeeNotFoundException;
@@ -15,22 +17,27 @@ import com.apu.employee.security_oauth2.repository.UserRepository;
 import com.apu.employee.specifications.EmployeeSearchSpecifications;
 import com.apu.employee.utils.Defs;
 import com.apu.employee.utils.Role;
+import com.apu.employee.utils.ServiceUtil;
 import com.apu.employee.utils.Utils;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
+
+import static com.apu.employee.utils.ServiceUtil.GENERATE_PAYSLIP_WHILE_JOINING;
 
 @Service
 @Transactional
@@ -40,28 +47,31 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final EmployeeSalaryRepository employeeSalaryRepository;
-//    private final com.apu.employee.services.payroll.MonthlyPaySlipService monthlyPaySlipService;
 
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder passwordEncoder;
+
+    private final RestTemplate template;
 
     @Autowired
     EmployeeServiceImpl(EmployeeRepository employeeRepository,
             UserRepository userRepository,
             AuthorityRepository authorityRepository,
             EmployeeSalaryRepository employeeSalaryRepository,
-            /*MonthlyPaySlipService monthlyPaySlipService,*/
+            RestTemplate template,
             @Qualifier("userPasswordEncoder")PasswordEncoder passwordEncoder){
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.authorityRepository = authorityRepository;
         this.employeeSalaryRepository = employeeSalaryRepository;
-//        this.monthlyPaySlipService = monthlyPaySlipService;
         this.passwordEncoder = passwordEncoder;
+        this.template = template;
     }
 
 
-    private User addOauthUser(Employee employee, String password) throws GenericException {
+    @Override
+    @Transactional
+    public User addOauthUser(Employee employee, String password) throws GenericException {
         try {
             log.info("EmployeeServiceImpl::addOauthUser start: email: {}", employee.getEmail());
             Optional<User> optionalUser = userRepository.findByUsername(employee.getEmail());
@@ -90,6 +100,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public EmployeeDto enrollEmployee(EmployeeDto employeeDto) throws GenericException {
         try {
             log.info("EmployeeServiceImpl::enrollEmployee service start: userId: {} and email: {}", employeeDto.getUserId(), employeeDto.getEmail());
@@ -103,7 +114,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             Utils.copyProperty(employeeDto, employee);
 
             User user = addOauthUser(employee, employeeDto.getPassword());
-            log.debug("EmployeeServiceImpl::enrollEmployee service:  user: {} ", user.toString());
+            log.info("EmployeeServiceImpl::enrollEmployee service:  user: {} ", user.toString());
 
             employee.setOauthUser(user);
             employee.setStatus(true);
@@ -129,9 +140,42 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.debug("EmployeeServiceImpl::enrollEmployee service:  employeeSalary: {} ", employeeSalary.toString());
 
 
-            //TODO microservice call needed
             //generate payslip for the current financial year
-//            monthlyPaySlipService.generatePayslipForCurrentFinancialYear(employee, employeeSalary, employee.getDateOfJoining());
+            MonthlyPaySlipJoiningRequestDto requestDto = new MonthlyPaySlipJoiningRequestDto();
+            requestDto.setEmployeeId(employee.getId());
+            requestDto.setGrossSalary(employeeSalary.getGrossSalary());
+            requestDto.setJoiningDate(employee.getDateOfJoining());
+
+            log.info("EmployeeServiceImpl::enrollEmployee service: calling generate payslip while joining request: {}", Utils.jsonAsString(requestDto));
+
+            try{
+                ResponseEntity<APIResponse<Boolean>> apiResponse = null;
+                ParameterizedTypeReference<APIResponse<Boolean>> typeRef = new ParameterizedTypeReference<APIResponse<Boolean>>() {
+                };
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+
+
+                headers = new HttpHeaders();
+                headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<MonthlyPaySlipJoiningRequestDto> requestEntity = new HttpEntity<>(requestDto, headers);
+                apiResponse = template.exchange(GENERATE_PAYSLIP_WHILE_JOINING, HttpMethod.POST, requestEntity, typeRef);
+                log.info("EmployeeServiceImpl::enrollEmployee service: apiResponse: {}", Utils.jsonAsString(apiResponse));
+
+                if(!apiResponse.getStatusCode().equals(HttpStatus.CREATED)){
+                    throw new GenericException("Payslip generation while joining not succeed!");
+                }else{
+                    if(apiResponse.hasBody() && !apiResponse.getBody().getStatus().equals("SUCCESS")){
+                        throw new GenericException("Payslip generation while joining not succeed!");
+                    }
+                }
+            }catch (Exception e){
+                log.error("EmployeeServiceImpl::enrollEmployee Exception occurred while generating payslip the current financial year, message: {}", e.getMessage());
+                throw new GenericException("Exception occurred while generating payslip the current financial year, message:"+e.getMessage());
+            }
+
             log.debug("EmployeeServiceImpl::enrollEmployee service:  monthly payslip generation successful employee id: {}, email: {} ", employee.getId(), employee.getEmail());
 
             Utils.copyProperty(employee, employeeDto);

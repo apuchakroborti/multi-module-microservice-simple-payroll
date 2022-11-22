@@ -1,6 +1,5 @@
 package com.apu.employee.dto.request;
 
-import com.apu.employee.dto.EmployeeDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,13 +12,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class MonthlyPaySlipRequestDto {
     private Long id;
-
-    @NotNull(message = "Employee id should not be null!")
-    private EmployeeDto employee;
-
+    private Long employeeId;
+    private Double grossSalary;
     @NotNull(message = "From date should not be null!")
     private LocalDate fromDate;
-
     @NotNull(message = "To date should not be null!")
     private LocalDate toDate;
+    @NotNull(message = "Initial status must not be null!")
+    private Boolean initialStatus;
 }
