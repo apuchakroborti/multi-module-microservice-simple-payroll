@@ -13,6 +13,7 @@
     <packaging>war</packaging>
     <properties>
         <modelmapper.version>2.3.9</modelmapper.version>
+        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
@@ -115,6 +116,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.7</version>
         </dependency>
+        <!--        for eureka server registry-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -128,6 +134,18 @@
             </plugin>
         </plugins>
     </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-dependencies</artifactId>
+<!--                <version>3.1.5</version>-->
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
 
 </project>

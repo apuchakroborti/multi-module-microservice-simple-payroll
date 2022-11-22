@@ -104,31 +104,96 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-webflux:5.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.synchronoss.cloud:nio-multipart-parser:1.1.0" />
           <element id="library" level="project" name="Maven: org.synchronoss.cloud:nio-stream-storage:1.1.3" />
-          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream:3.2.6" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream:3.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-messaging:5.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.integration:spring-integration-core:5.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.integration:spring-integration-jmx:5.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.retry:spring-retry:1.2.5.RELEASE" />
-          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-function-context:3.2.8" />
-          <element id="library" level="project" name="Maven: net.jodah:typetools:0.6.2" />
-          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-function-core:3.2.8" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-function-context:3.0.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-function-core:3.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: javax.annotation:javax.annotation-api:1.3.2" />
-          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.61" />
-          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.3.61" />
-          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.61" />
-          <element id="library" level="project" name="Maven: org.jetbrains:annotations:13.0" />
-          <element id="library" level="project" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.61" />
-          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream-binder-kafka:3.2.6" />
-          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream-binder-kafka-core:3.2.6" />
-          <element id="library" level="project" name="Maven: org.springframework.integration:spring-integration-kafka:5.5.15" />
-          <element id="library" level="project" name="Maven: org.springframework.kafka:spring-kafka:2.3.5.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream-binder-kafka:3.0.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-stream-binder-kafka-core:3.0.3.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.integration:spring-integration-kafka:3.2.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.apache.kafka:kafka-clients:2.3.1" />
           <element id="library" level="project" name="Maven: com.github.luben:zstd-jni:1.4.0-1" />
           <element id="library" level="project" name="Maven: org.lz4:lz4-java:1.6.0" />
           <element id="library" level="project" name="Maven: org.xerial.snappy:snappy-java:1.1.7.3" />
+          <element id="library" level="project" name="Maven: org.springframework.kafka:spring-kafka:2.3.5.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.2.3.RELEASE" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.19" />
           <element id="library" level="project" name="Maven: org.apache.commons:commons-lang3:3.7" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-starter:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-context:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:5.2.1.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-commons:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.security:spring-security-rsa:1.0.9.RELEASE" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcpkix-jdk15on:1.64" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk15on:1.64" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-netflix-hystrix:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-netflix-eureka-client:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: com.netflix.eureka:eureka-client:1.9.17" />
+          <element id="library" level="project" name="Maven: org.codehaus.jettison:jettison:1.3.7" />
+          <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Maven: com.netflix.netflix-commons:netflix-eventbus:0.3.0" />
+          <element id="library" level="project" name="Maven: com.netflix.netflix-commons:netflix-infix:0.3.0" />
+          <element id="library" level="project" name="Maven: commons-jxpath:commons-jxpath:1.3" />
+          <element id="library" level="project" name="Maven: joda-time:joda-time:2.10.5" />
+          <element id="library" level="project" name="Maven: org.antlr:antlr-runtime:3.4" />
+          <element id="library" level="project" name="Maven: org.antlr:stringtemplate:3.2.1" />
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.6" />
+          <element id="library" level="project" name="Maven: org.apache.commons:commons-math:2.2" />
+          <element id="library" level="project" name="Maven: com.netflix.archaius:archaius-core:0.7.6" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:28.2-android" />
+          <element id="library" level="project" name="Maven: com.google.guava:failureaccess:1.0.1" />
+          <element id="library" level="project" name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-compat-qual:2.5.5" />
+          <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.3.4" />
+          <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:1.3" />
+          <element id="library" level="project" name="Maven: javax.ws.rs:jsr311-api:1.1.1" />
+          <element id="library" level="project" name="Maven: com.netflix.servo:servo-core:0.12.21" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.19.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-client:1.19.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey.contribs:jersey-apache-client4:1.19.1" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.10" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" />
+          <element id="library" level="project" name="Maven: com.google.inject:guice:4.1.0" />
+          <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
+          <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
+          <element id="library" level="project" name="Maven: com.netflix.eureka:eureka-core:1.9.17" />
+          <element id="library" level="project" name="Maven: com.fasterxml.woodstox:woodstox-core:5.2.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.woodstox:stax2-api:4.2" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-archaius:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-netflix-ribbon:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-netflix-archaius:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: commons-configuration:commons-configuration:1.8" />
+          <element id="library" level="project" name="Maven: commons-lang:commons-lang:2.6" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-starter-netflix-ribbon:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon:2.3.0" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon-transport:2.3.0" />
+          <element id="library" level="project" name="Maven: io.reactivex:rxnetty-contexts:0.4.9" />
+          <element id="library" level="project" name="Maven: io.reactivex:rxnetty-servo:0.4.9" />
+          <element id="library" level="project" name="Maven: com.netflix.hystrix:hystrix-core:1.5.18" />
+          <element id="library" level="project" name="Maven: org.hdrhistogram:HdrHistogram:2.1.9" />
+          <element id="library" level="project" name="Maven: io.reactivex:rxnetty:0.4.9" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon-core:2.3.0" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon-httpclient:2.3.0" />
+          <element id="library" level="project" name="Maven: commons-collections:commons-collections:3.2.2" />
+          <element id="library" level="project" name="Maven: com.netflix.netflix-commons:netflix-commons-util:0.3.0" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon-loadbalancer:2.3.0" />
+          <element id="library" level="project" name="Maven: com.netflix.netflix-commons:netflix-statistics:0.1.1" />
+          <element id="library" level="project" name="Maven: io.reactivex:rxjava:1.3.8" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-starter-loadbalancer:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.cloud:spring-cloud-loadbalancer:2.2.2.RELEASE" />
+          <element id="library" level="project" name="Maven: io.projectreactor.addons:reactor-extra:3.3.2.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-cache:2.2.4.RELEASE" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.2.3.RELEASE" />
+          <element id="library" level="project" name="Maven: com.stoyanr:evictor:1.0.0" />
+          <element id="library" level="project" name="Maven: com.netflix.ribbon:ribbon-eureka:2.3.0" />
+          <element id="library" level="project" name="Maven: com.thoughtworks.xstream:xstream:1.4.11.1" />
+          <element id="library" level="project" name="Maven: xmlpull:xmlpull:1.1.3.1" />
+          <element id="library" level="project" name="Maven: xpp3:xpp3_min:1.1.4c" />
           <element id="library" level="project" name="Maven: io.projectreactor:reactor-core:3.3.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.reactivestreams:reactive-streams:1.0.3" />
         </element>
