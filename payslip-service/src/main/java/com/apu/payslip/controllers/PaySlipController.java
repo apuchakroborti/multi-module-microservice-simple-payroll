@@ -3,6 +3,7 @@ package com.apu.payslip.controllers;
 import com.apu.payslip.dto.APIResponse;
 import com.apu.payslip.dto.MonthlyPaySlipDto;
 import com.apu.payslip.dto.Pagination;
+import com.apu.payslip.dto.request.MonthlyPaySlipJoiningRequestDto;
 import com.apu.payslip.dto.request.MonthlyPaySlipRequestDto;
 import com.apu.payslip.dto.request.PayslipSearchCriteria;
 import com.apu.payslip.entity.payroll.MonthlyPaySlip;
@@ -16,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,6 +45,23 @@ public class PaySlipController {
                 .<MonthlyPaySlipDto>builder()
                 .status("SUCCESS")
                 .results(monthlyPaySlipDto)
+                .build();
+
+        log.info("PaySlipController::generatePaySlip response {}", Utils.jsonAsString(responseDTO));
+        return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+    }
+    @PostMapping("/join")
+    public ResponseEntity<APIResponse> generatePaySlipWhileJoining(@Valid @RequestBody MonthlyPaySlipJoiningRequestDto requestDto) throws GenericException {
+        log.info("PaySlipController::generatePaySlip request: {}", Utils.jsonAsString(requestDto));
+        monthlyPaySlipService.generatePayslipForCurrentFinancialYear(
+                requestDto.getEmployeeId(),
+                requestDto.getGrossSalary(),
+                requestDto.getJoiningDate());
+
+        APIResponse<Boolean> responseDTO = APIResponse
+                .<Boolean>builder()
+                .status("SUCCESS")
+                .results(true)
                 .build();
 
         log.info("PaySlipController::generatePaySlip response {}", Utils.jsonAsString(responseDTO));

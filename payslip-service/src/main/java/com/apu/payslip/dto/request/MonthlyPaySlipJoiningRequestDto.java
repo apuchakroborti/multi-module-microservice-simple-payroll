@@ -10,16 +10,13 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MonthlyPaySlipRequestDto {
-    private Long id;
-
+public class MonthlyPaySlipJoiningRequestDto {
+    @NotNull(message = "Employee Id should not be null!")
     private Long employeeId;
 
+    @NotNull(message = "Gross salary should not be null!")
     private Double grossSalary;
 
-    @NotNull(message = "From date should not be null!")
-    private LocalDate fromDate;
-
-    @NotNull(message = "To date should not be null!")
-    private LocalDate toDate;
+    @NotNull(message = "Joining date should not be null!")
+    private LocalDate joiningDate;
 }
