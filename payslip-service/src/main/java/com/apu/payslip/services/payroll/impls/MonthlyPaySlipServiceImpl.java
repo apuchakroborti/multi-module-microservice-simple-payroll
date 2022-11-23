@@ -69,7 +69,7 @@ public class MonthlyPaySlipServiceImpl implements MonthlyPaySlipService {
             }
 
             Page<MonthlyPaySlip> page = monthlyPaySlipRepository.getEmployeeMonthlyPaySlipByDateRangeAndEmployeeId(
-                    requestDto.getFromDate(), requestDto.getToDate(), /*optionalEmployee.get().getId()*/requestDto.getEmployeeId(), PageRequest.of(0, 1));
+                    requestDto.getFromDate(), requestDto.getToDate(), requestDto.getEmployeeId(), PageRequest.of(0, 1));
 
             //TODO get employee current gross salary by microservice calling
             Double currentGrossSalary = this.getCurrentGrossSalaryFromEMPLOYEE_SERVICE(requestDto);
@@ -407,30 +407,23 @@ public class MonthlyPaySlipServiceImpl implements MonthlyPaySlipService {
         return monthlyPaySlip;
     }
     private Double getCurrentGrossSalaryFromEMPLOYEE_SERVICE(MonthlyPaySlipRequestDto requestDto) throws GenericException{
-        ResponseEntity<APIResponse<EmployeeSalaryDto>> apiResponse = null;
+        ResponseEntity<APIResponse<EmployeeSalaryDto>> apiEmployeeResponse = null;
         try{
 
             ParameterizedTypeReference<APIResponse<EmployeeSalaryDto>> typeRef = new ParameterizedTypeReference<APIResponse<EmployeeSalaryDto>>() {
             };
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity requestEntity = new HttpEntity(null, Utils.getHeaders());
+            apiEmployeeResponse = template.exchange(ServiceUtil.GET_EMP_CURRENT_SALARY+"/"+requestDto.getEmployeeId(), HttpMethod.GET, requestEntity, typeRef);
+            log.info("EmployeeServiceImpl::generatePaySlip service: apiResponse: {}", Utils.jsonAsString(apiEmployeeResponse));
 
-
-            headers = new HttpHeaders();
-            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity requestEntity = new HttpEntity(null, headers);
-            apiResponse = template.exchange(ServiceUtil.GET_EMP_CURRENT_SALARY+"/"+requestDto.getEmployeeId(), HttpMethod.GET, requestEntity, typeRef);
-            log.info("EmployeeServiceImpl::generatePaySlip service: apiResponse: {}", Utils.jsonAsString(apiResponse));
-
-            if(!apiResponse.getStatusCode().equals(HttpStatus.CREATED)){
+            if(!apiEmployeeResponse.getStatusCode().equals(HttpStatus.CREATED)){
                 throw new GenericException("Payslip generation while joining not succeed!");
             }else{
-                if(apiResponse.hasBody() && !apiResponse.getBody().getStatus().equals("SUCCESS")){
+                if(apiEmployeeResponse.hasBody() && !apiEmployeeResponse.getBody().getStatus().equals("SUCCESS")){
                     throw new GenericException("Payslip generation while joining not succeed!");
                 }
-                return apiResponse.getBody().getResults().getGrossSalary();
+                return apiEmployeeResponse.getBody().getResults().getGrossSalary();
             }
         }catch (Exception e){
             log.error("MonthlyPaySlipServiceImpl::generatePaySlip Exception occurred while generating payslip the current financial year, message: {}", e.getMessage());
@@ -438,17 +431,11 @@ public class MonthlyPaySlipServiceImpl implements MonthlyPaySlipService {
         }
     }
     private Long getMonthlyTaxDeductionFromTAX_SERVICE(MonthlyPaySlipRequestDto requestDto) throws GenericException{
-        ResponseEntity<APIResponse<EmployeeTaxDepositDto>> apiResponseTax = null;
+        ResponseEntity<APIResponse<EmployeeTaxDepositDto>> apiTaxResponse = null;
         try{
 
             ParameterizedTypeReference<APIResponse<EmployeeTaxDepositDto>> typeRef = new ParameterizedTypeReference<APIResponse<EmployeeTaxDepositDto>>() {
             };
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers = new HttpHeaders();
-            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-            headers.setContentType(MediaType.APPLICATION_JSON);
 
             EmployeeTaxDepositDto employeeTaxDepositDto = new EmployeeTaxDepositDto();
             employeeTaxDepositDto.setEmployeeId(requestDto.getEmployeeId());
@@ -456,17 +443,17 @@ public class MonthlyPaySlipServiceImpl implements MonthlyPaySlipService {
             employeeTaxDepositDto.setToDate(requestDto.getToDate());
 
 
-            HttpEntity<EmployeeTaxDepositDto> requestEntity = new HttpEntity(employeeTaxDepositDto, headers);
-            apiResponseTax = template.exchange(ServiceUtil.SAVE_EMPLOYEE_TAX, HttpMethod.POST, requestEntity, typeRef);
-            log.info("EmployeeServiceImpl::generatePaySlip service: "+apiResponseTax+": {}", Utils.jsonAsString(apiResponseTax));
+            HttpEntity<EmployeeTaxDepositDto> requestEntity = new HttpEntity(employeeTaxDepositDto, Utils.getHeaders());
+            apiTaxResponse = template.exchange(ServiceUtil.SAVE_EMPLOYEE_TAX, HttpMethod.POST, requestEntity, typeRef);
+            log.info("EmployeeServiceImpl::generatePaySlip service: "+apiTaxResponse+": {}", Utils.jsonAsString(apiTaxResponse));
 
-            if(!apiResponseTax.getStatusCode().equals(HttpStatus.CREATED)){
+            if(!apiTaxResponse.getStatusCode().equals(HttpStatus.CREATED)){
                 throw new GenericException("Payslip generation while joining not succeed!");
             }else{
-                if(apiResponseTax.hasBody() && !apiResponseTax.getBody().getStatus().equals("SUCCESS")){
+                if(apiTaxResponse.hasBody() && !apiTaxResponse.getBody().getStatus().equals("SUCCESS")){
                     throw new GenericException("Payslip generation while joining not succeed!");
                 }
-                return apiResponseTax.getBody().getResults().getId();
+                return apiTaxResponse.getBody().getResults().getId();
             }
         }catch (Exception e){
             log.error("MonthlyPaySlipServiceImpl::generatePaySlip Exception occurred while generating payslip the current financial year, message: {}", e.getMessage());
@@ -474,35 +461,27 @@ public class MonthlyPaySlipServiceImpl implements MonthlyPaySlipService {
         }
     }
     private Long getProvidentFundIdFromPROVIDENT_FUND_SERVICE(MonthlyPaySlipRequestDto requestDto) throws GenericException{
-        ResponseEntity<APIResponse<ProvidentFundDto>> providentDataApiResponse = null;
+        ResponseEntity<APIResponse<ProvidentFundDto>> apiProvidentFundResponse = null;
         try{
 
             ParameterizedTypeReference<APIResponse<ProvidentFundDto>> typeRef = new ParameterizedTypeReference<APIResponse<ProvidentFundDto>>() {
             };
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-
-            headers = new HttpHeaders();
-            headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
             ProvidentFundDto providentFundDto = new ProvidentFundDto();
             providentFundDto.setEmployeeId(requestDto.getEmployeeId());
             providentFundDto.setGrossSalary(100.0);
 
-            HttpEntity requestEntity = new HttpEntity(null, headers);
-            providentDataApiResponse = template.exchange(ServiceUtil.SAVE_PROVIDENT_FUND, HttpMethod.POST, requestEntity, typeRef);
-            log.info("EmployeeServiceImpl::generatePaySlip service: apiResponse: {}", Utils.jsonAsString(providentDataApiResponse));
+            HttpEntity requestEntity = new HttpEntity(null, Utils.getHeaders());
+            apiProvidentFundResponse = template.exchange(ServiceUtil.SAVE_PROVIDENT_FUND, HttpMethod.POST, requestEntity, typeRef);
+            log.info("EmployeeServiceImpl::generatePaySlip service: apiResponse: {}", Utils.jsonAsString(apiProvidentFundResponse));
 
-            if(!providentDataApiResponse.getStatusCode().equals(HttpStatus.CREATED)){
+            if(!apiProvidentFundResponse.getStatusCode().equals(HttpStatus.CREATED)){
                 throw new GenericException("Payslip generation while joining not succeed!");
             }else{
-                if(providentDataApiResponse.hasBody() && !providentDataApiResponse.getBody().getStatus().equals("SUCCESS")){
+                if(apiProvidentFundResponse.hasBody() && !apiProvidentFundResponse.getBody().getStatus().equals("SUCCESS")){
                     throw new GenericException("Payslip generation while joining not succeed!");
                 }
-                return providentDataApiResponse.getBody().getResults().getId();
+                return apiProvidentFundResponse.getBody().getResults().getId();
             }
         }catch (Exception e){
             log.error("MonthlyPaySlipServiceImpl::generatePaySlip Exception occurred while generating payslip the current financial year, message: {}", e.getMessage());
