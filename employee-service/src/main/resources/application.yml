@@ -10,3 +10,5 @@ spring:
 #  instance:
 #    hostname: localhost
 
+logging:
+  file: D:/elk_logs/microservice.log

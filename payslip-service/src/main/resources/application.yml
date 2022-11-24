@@ -9,3 +9,6 @@ spring:
 #      defaultZone: http://localhost:8761/eureka/
 #  instance:
 #    hostname: localhost
+
+logging:
+  file: D:/elk_logs/microservice.log
