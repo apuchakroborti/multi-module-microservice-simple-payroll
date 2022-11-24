@@ -66,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             UserRepository userRepository,
             AuthorityRepository authorityRepository,
             EmployeeSalaryRepository employeeSalaryRepository,
-            RestTemplate template,
+            @Lazy RestTemplate template,
             @Qualifier("userPasswordEncoder")PasswordEncoder passwordEncoder){
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
